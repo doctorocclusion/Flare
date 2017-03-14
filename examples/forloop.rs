@@ -1,3 +1,5 @@
+extern crate flare;
+
 fn gen<T>(func_name: &str, funcs: ToIterator<Item = &str>) -> AstTree {
 	let mut func = flare::fn_();
 	func.named(func_name);
@@ -10,7 +12,7 @@ fn gen<T>(func_name: &str, funcs: ToIterator<Item = &str>) -> AstTree {
 	let vals = Vec::new();
 
 	for f in funcs {
-		let val = func.attach(flare::let_from(val));
+		let val = func.attach(flare::let_from(start));
 		let range = flare::range(Some(0), Some(n.copied()));
 		let repeat = flare::for_(range);
 		repeat.attach(val.modify(val.call(f) * std::f32::consts::PI));

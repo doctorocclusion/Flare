@@ -1,21 +1,23 @@
-pub trait Twig {
+pub mod lit;
+
+use aster::AstBuilder;
+
+pub struct CodePaver {
 
 }
 
-pub trait ToTwig<T: Twig> {
-	fn to_twig(self) -> T;
+pub trait Attachable<T> {
+    fn attach(&self, pave: &mut CodePaver) -> T;
 }
 
-impl<T: Twig> ToTwig<T> for T {
-	fn to_twig(self) -> T {
-		self
-	}
+pub trait ToAttachable<T: Attachable<R>, R> {
+    fn to_attachable(self) -> T;
 }
 
-pub struct Binding {
-	
+pub trait Expressible {
+    fn ast_expr(&self, build: &AstBuilder) -> ::PExpr;
 }
 
-pub struct LiteralTwig {
-
+pub trait ToExpressible<T: Expressible> {
+    fn to_expressible(self) -> T;
 }
