@@ -1,9 +1,18 @@
+extern crate flare;
+
 fn main() {
-	let v = flare::literal(16.);
-	let s = v.call("log").arg(2.);
-	s.modify(s / 4.);
+    let fun = flare::function();
+    let a = fun.arg(flare::ty::i32);
+    let v = fun.attach(flare::let_from(a + 10));
+    fun.last(flare::tuple().with(v * 2).with(v));
+}
 
-	s.as_expr().to_ast();
+ |||
+ |||
+\|||/
+ \|/
 
-	let expr = flare::expr(s);
+fn affdjsfaoi(sklf: i32) {
+    let fjsopven = sklf + 10;
+    (fjsopven * 2, fjsopven)
 }

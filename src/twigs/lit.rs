@@ -32,15 +32,15 @@ impl_literal!(usize, usize);
 impl_literal!(isize, isize);
 impl_literal!(String, ex, s, ex.str(s.as_str()));
 
-pub fn literal<L: LiteralValue>(lit: L) -> LiteralTwig<L> {
-    LiteralTwig {
-        val: lit
-    }
+pub fn literal<L: LiteralValue>(lit: L) -> Box<LiteralTwig<L>> {
+    lit.to_expressible_box()
 }
 
 impl<V: LiteralValue> ::twigs::ToExpressible<LiteralTwig<V>> for V {
     fn to_expressible(self) -> LiteralTwig<V> {
-        literal(self)
+        Box::new(LiteralTwig {
+            val: self
+        })
     }
 }
 
@@ -49,7 +49,4 @@ pub struct LiteralTwig<V: LiteralValue> {
 }
 
 impl<V: LiteralValue> ::twigs::Expressible for LiteralTwig<V> {
-    fn ast_expr(&self, builder: &AstBuilder) -> ::PExpr {
-        self.val.ast_expr(builder)
-    }
 }
