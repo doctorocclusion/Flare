@@ -1,6 +1,7 @@
 use aster::AstBuilder;
+use {Expressible, BoxedExpressible, ToExpressible};
 
-pub trait LiteralValue {
+pub trait LiteralValue: Expressible {
     fn ast_expr(&self, builder: &AstBuilder) -> ::PExpr;
 }
 
@@ -17,6 +18,9 @@ macro_rules! impl_literal {
                 $f
             }
         }
+
+        impl Expressible for $a {
+        }
     }
 }
 
@@ -32,21 +36,11 @@ impl_literal!(usize, usize);
 impl_literal!(isize, isize);
 impl_literal!(String, ex, s, ex.str(s.as_str()));
 
-pub fn literal<L: LiteralValue>(lit: L) -> Box<LiteralTwig<L>> {
-    lit.to_expressible_box()
-}
-
-impl<V: LiteralValue> ::twigs::ToExpressible<LiteralTwig<V>> for V {
-    fn to_expressible(self) -> LiteralTwig<V> {
-        Box::new(LiteralTwig {
-            val: self
-        })
+impl<'a> LiteralValue for &'a str {
+    fn ast_expr(&self, builder: &AstBuilder) -> ::PExpr {
+        builder.expr().str(self)
     }
 }
 
-pub struct LiteralTwig<V: LiteralValue> {
-    val: V
-}
-
-impl<V: LiteralValue> ::twigs::Expressible for LiteralTwig<V> {
+impl<'a> Expressible for &'a str {
 }

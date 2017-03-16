@@ -1,5 +1,7 @@
-pub trait Copiable<C: ::Expressible> {
-    fn copied(&self) -> C;
+use ::{ToExpressible, Expressible};
+
+pub trait Copiable<T: Expressible> {
+    fn copied(&self) -> T;
 }
 
 #[derive(Debug)]
@@ -15,14 +17,14 @@ impl Copiable<OuterIdentTwig> for OuterIdentTwig {
     }
 }
 
-impl ::Expressible for OuterIdentTwig {
+impl Expressible for OuterIdentTwig {
 
 }
 
-pub fn existing_ident(name: &str) -> Box<OuterIdentTwig> {
+pub fn existing_ident(name: &str) -> OuterIdentTwig {
     OuterIdentTwig {
         name: name.to_owned(),
-    }.into_boxed()
+    }
 }
 
 #[derive(Debug)]
@@ -70,7 +72,7 @@ impl Copiable<CopiedTwig> for CopiedTwig {
     }
 }
 
-impl ::Expressible for CopiedTwig {
+impl Expressible for CopiedTwig {
     
 }
 
@@ -88,6 +90,6 @@ impl Copiable<CopiedTwig> for ArgumentTwig {
     }
 }
 
-impl ::Expressible for ArgumentTwig {
+impl Expressible for ArgumentTwig {
     
 }

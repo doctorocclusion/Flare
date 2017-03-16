@@ -10,4 +10,3 @@ nightly = []
 [dependencies]
 aster = { version = "*", default_features = false }
 syntex_syntax = { version = "*", optional = true }
-lazy_static = "*"

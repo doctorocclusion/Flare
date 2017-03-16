@@ -1,41 +1,45 @@
 pub mod lit;
 pub mod bind;
 pub mod ops;
+pub mod lets;
 
-use aster::AstBuilder;
-use std::ops::*;
+use syntax::ast;
 
 pub struct CodePaver {
 
 }
 
-pub trait Attachable<T> {
-    fn attach(&self, pave: &mut CodePaver) -> T;
+pub trait Attachable {
+    type After;
 }
 
-pub trait ToAttachable<T: Attachable<R>, R> {
-    fn to_attachable(self) -> T;
+impl Attachable for ast::Stmt {
+    type After = ();
+
+    // TODO
 }
 
 pub trait Expressible {
 }
 
-pub trait ToExpressible<T: Expressible>: ToExpressibleBox {
-    fn to_expressible(self) -> T;
+pub trait ToExpressible {
+    fn to_boxed(self) -> BoxedExpressible;
 }
 
-pub trait ToExpressibleBox {
-    fn to_expressible_box(self) -> ::Exprable;
-}
-
-impl<T: Expressible> ToExpressible<T> for T {
-    fn to_expressible(self) -> T {
-        self
+impl<T> ToExpressible for T where T: Expressible + 'static {
+    fn to_boxed(self) -> BoxedExpressible {
+        Box::new(self) as BoxedExpressible
     }
 }
 
-impl<T: Expressible> ToExpressibleBox for T {
-    fn to_expressible_box(self) -> Box<T> {
-        Box::new(self)
+impl Expressible for ast::Expr {
+    // TODO
+}
+
+pub type BoxedExpressible = Box<Expressible>;
+
+impl ToExpressible for BoxedExpressible {
+    fn to_boxed(self) -> BoxedExpressible {
+        self
     }
 }
