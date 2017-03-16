@@ -1,13 +1,9 @@
 pub mod lit;
 pub mod bind;
 pub mod ops;
-pub mod lets;
+pub mod stmt;
 
 use syntax::ast;
-
-pub struct CodePaver {
-
-}
 
 pub trait Attachable {
     type After;
@@ -20,14 +16,7 @@ impl Attachable for ast::Stmt {
 }
 
 pub trait Expressible {
-}
-
-pub trait ToExpressible {
-    fn to_boxed(self) -> BoxedExpressible;
-}
-
-impl<T> ToExpressible for T where T: Expressible + 'static {
-    fn to_boxed(self) -> BoxedExpressible {
+    fn to_boxed(self) -> BoxedExpressible where Self: Sized + 'static {
         Box::new(self) as BoxedExpressible
     }
 }
@@ -37,9 +26,3 @@ impl Expressible for ast::Expr {
 }
 
 pub type BoxedExpressible = Box<Expressible>;
-
-impl ToExpressible for BoxedExpressible {
-    fn to_boxed(self) -> BoxedExpressible {
-        self
-    }
-}

@@ -22,3 +22,4 @@ primitive!(u64);
 primitive!(i64);
 primitive!(usize);
 primitive!(isize);
+primitive!(str);

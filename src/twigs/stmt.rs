@@ -1,4 +1,4 @@
-use ::{ToExpressible, BoxedExpressible, Attachable};
+use {Expressible, BoxedExpressible, Attachable};
 use super::bind::VariableTwig;
 
 pub struct LetTwig {
@@ -9,7 +9,7 @@ impl Attachable for LetTwig {
     type After = VariableTwig;
 }
 
-pub fn let_from<E: ToExpressible>(right: E) -> LetTwig {
+pub fn let_from<E: Expressible + 'static>(right: E) -> LetTwig {
     LetTwig {
         right: Some(right.to_boxed()),
     }

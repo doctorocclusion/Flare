@@ -1,5 +1,5 @@
 use aster::AstBuilder;
-use {Expressible, BoxedExpressible, ToExpressible};
+use {Expressible, BoxedExpressible};
 
 pub trait LiteralValue: Expressible {
     fn ast_expr(&self, builder: &AstBuilder) -> ::PExpr;
