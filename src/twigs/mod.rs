@@ -2,6 +2,7 @@ pub mod lit;
 pub mod bind;
 pub mod ops;
 pub mod stmt;
+pub mod loops;
 
 use syntax::ast;
 

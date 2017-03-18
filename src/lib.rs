@@ -76,13 +76,14 @@ extern crate syntex_syntax as syntax;
 
 mod twigs;
 pub mod ty;
+// pub use twigs::ops;
 
 pub use ty::{Ty};
 pub use twigs::bind::*;
-// pub use twigs::lit::{literal};
 pub use twigs::{BoxedExpressible, Expressible, Attachable};
 pub use twigs::ops::*;
 pub use twigs::stmt::*;
+pub use twigs::loops::*;
 
 type PExpr = syntax::ptr::P<syntax::ast::Expr>;
 type PStmt = syntax::ptr::P<syntax::ast::Stmt>;
